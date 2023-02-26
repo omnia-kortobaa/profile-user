@@ -1,0 +1,578 @@
+@import "../../../../styles.scss";
+
+.profile-page {
+  font-size: 1.6rem;
+  width    : 75%;
+  margin   : 0 auto;
+
+  &__header {
+    width  : 90%;
+    display: flex;
+    margin : 0 auto;
+
+    // justify-content: space-between;
+    &__edit-btn {
+      color           : #55636d;
+      background-color: #f6f6f6;
+      height          : 5rem !important;
+      min-width       : 5rem !important;
+      padding         : 0 !important;
+      align-self      : flex-end;
+      border-radius   : 1rem !important;
+    }
+
+    &__title {
+      font-size  : 3.2rem;
+      font-weight: bold;
+      margin-top : 5rem;
+      margin-left: 5rem;
+    }
+
+    &__timeLog {
+      display      : flex;
+      align-items  : center;
+      background   : rgba($color: #cea59d, $alpha: 0.07);
+      padding      : 1rem;
+      border-radius: 13px;
+      margin       : 5rem 5rem 0;
+
+      mat-icon {
+        color: #cea59d;
+      }
+
+      h5 {
+        margin     : 0 1rem;
+        font-size  : 1.8rem;
+        font-weight: 500;
+        color      : #585858;
+      }
+
+      span {
+        font-size  : 1.8rem;
+        font-weight: bold;
+        color      : #585858;
+      }
+    }
+  }
+
+  &__content {
+    display              : grid;
+    grid-template-columns: 1fr 4fr;
+    padding              : 6rem 0rem 0;
+    width                : 90%;
+    margin               : 0 auto;
+  }
+
+  &__sider {
+    min-height : 60vh;
+    border-left: 1px solid #e8e8e8;
+    margin-top : 4rem;
+
+    &__title {
+      font-size : 2.4rem;
+      text-align: start;
+    }
+
+    &__tabs {
+      // margin-top: 4rem;
+      position: relative;
+
+      &__item {
+        font-size    : 1.8rem;
+        font-weight  : bold;
+        color        : #707070;
+        border-bottom: 1px solid #e8e8e8;
+        text-align   : start;
+        padding      : 2rem;
+        cursor       : pointer;
+      }
+
+      &::after {
+        content         : "";
+        background-color: #cea59d;
+        height          : 6.7rem;
+        width           : 0.5rem;
+        position        : absolute;
+        left            : 0;
+        transition      : all 0.25s linear !important;
+      }
+
+      &.active-1 {
+        &::after {
+          top: 0rem;
+        }
+      }
+
+      &.active-2 {
+        &::after {
+          top: 6.6rem;
+        }
+      }
+
+      &.active-3 {
+        &::after {
+          top: 13.5rem;
+        }
+      }
+    }
+
+
+
+    &__logout {
+      display        : flex;
+      justify-content: flex-start;
+      align-items    : center;
+      color          : $primary-color;
+      cursor         : pointer;
+
+      margin: 40rem 2rem 0;
+
+      &:hover {
+        color: $secondry-color;
+      }
+    }
+  }
+
+  &__main {
+    padding-inline-start: 10rem;
+    padding-top         : 3rem;
+
+    &__account,
+    &__contact,
+    &__personal {
+      width    : 100%;
+      display  : flex;
+      flex-wrap: wrap;
+
+      &__field {
+        margin     : 7rem 0;
+        width      : 50%;
+        margin-top : 0;
+        padding-top: 2rem;
+
+        &__preview-image {
+          width     : 100px;
+          text-align: center;
+          margin    : 1rem auto;
+          position  : relative;
+
+          img {
+            width     : 100%;
+            object-fit: contain;
+          }
+
+          .close-btn {
+            position        : absolute;
+            top             : -0.25rem;
+            right           : -0.25rem;
+            background-color: $primary-color;
+            color           : $white;
+            border-radius   : 50%;
+            font-size       : 2rem;
+            height          : 2rem;
+            width           : 2rem;
+            cursor          : pointer;
+
+            &:hover {
+              background-color: $secondry-color;
+            }
+          }
+        }
+
+        &__warning {
+          color          : #ab1212;
+          font-size      : 1.8rem;
+          align-self     : flex-start;
+          display        : flex;
+          justify-content: center;
+          align-items    : center;
+          column-gap     : 0.25rem;
+
+          mat-icon {
+            color: #ab1212;
+          }
+        }
+      }
+
+      &__title {
+        font-size    : 2rem;
+        margin-bottom: 1rem;
+        color        : #080808;
+      }
+
+      &__value {
+        font-size  : 2.2rem;
+        font-weight: bold;
+        color      : #55636d;
+      }
+
+      &__img {
+        // width     : 35rem;
+        min-height: 15rem;
+
+        div {
+          position: absolute;
+          z-index : 1;
+          display : flex;
+          padding : 2rem;
+          cursor  : pointer;
+          left    : 0;
+          top     : 0;
+
+          mat-icon {
+            color: $secondry-color;
+
+          }
+
+          color: $secondry-color;
+
+        }
+
+        img {
+          width      : 100%;
+          display    : block;
+          object-fit : contain;
+          padding-top: 1rem;
+        }
+      }
+    }
+
+    &__change-password {
+      margin-top: 6rem;
+      display   : flex;
+      color     : $primary-color;
+      text-align: center;
+      cursor    : pointer;
+
+      // margin-top: 10rem;
+      p {
+        font-size  : 1.8rem;
+        font-weight: bold;
+      }
+
+      mat-icon {
+        margin-left: 1rem;
+      }
+
+      &:hover {
+        color: $secondry-color;
+      }
+    }
+  }
+
+  &__form {
+    width    : 100%;
+    display  : flex;
+    flex-wrap: wrap;
+
+    .field {
+      padding : 2rem;
+      width   : 50%;
+      margin  : 2rem 0;
+      position: relative;
+
+      &__label {
+        font-size: 2rem !important;
+      }
+
+      input {
+        color      : #080808;
+        font-size  : 2.2rem;
+        font-weight: bold !important;
+      }
+    }
+
+    .question {
+      display       : flex;
+      flex-direction: column;
+      font-size     : 1.8rem;
+      font-weight   : normal;
+      margin        : 1.5rem 0 0.5rem;
+
+      &__label {
+        font-size    : 2rem;
+        font-weight  : 500;
+        margin-bottom: 0.5rem;
+        height       : fit-content;
+        color        : #565252;
+
+        &__required {
+          color    : #c73136;
+          font-size: 2rem;
+        }
+      }
+
+      &__alert-message {
+        color: #c73136;
+      }
+
+      mat-icon {
+        color    : #55636d;
+        height   : 3rem;
+        width    : 3rem;
+        font-size: 3rem;
+        position : relative;
+        bottom   : 0.5rem;
+        cursor   : pointer;
+
+        &.active {
+          color: $secondry-color;
+        }
+      }
+    }
+
+    .update-password {
+      font-size    : 1.8rem;
+      font-weight  : bold;
+      text-align   : end;
+      margin-bottom: 3.5rem;
+      cursor       : pointer;
+    }
+
+    .form-action {
+      width : 70%;
+      margin: 2rem auto;
+
+      .submit-btn {
+        font-size       : 2rem;
+        color           : $white;
+        background-color: $primary-color;
+        border-radius   : 1.5rem;
+        height          : 6.5rem;
+        width           : 100%;
+        font-family     : "Tajawal", sans-serif !important;
+      }
+
+      .cancel-btn {
+        font-size       : 2rem;
+        margin          : 2rem 0;
+        color           : $primary-color;
+        background-color: $white;
+        border          : 1px solid $primary-color;
+        border-radius   : 1.5rem;
+        height          : 6.5rem;
+        width           : 100%;
+        font-family     : "Tajawal", sans-serif !important;
+      }
+    }
+  }
+
+  &__buttons {
+
+    &__login,
+    &__register {
+      width        : 21rem;
+      height       : 5rem;
+      border-radius: 1.6rem;
+      font-family  : "Tajawal", sans-serif !important;
+      margin-inline: 2rem;
+    }
+
+    &__login {
+      background-color: #55636d;
+      color           : $white;
+      font-size       : 1.6rem;
+    }
+
+    &__register {
+      background-color: transparent;
+      color           : $primary-color;
+      font-size       : 1.6rem;
+      border          : 1px solid $primary-color;
+    }
+
+    &__close {
+      position : absolute;
+      top      : 1rem;
+      right    : 1rem;
+      height   : 4rem;
+      width    : 4rem;
+      color    : $secondry-color;
+      font-size: 4rem;
+      cursor   : pointer;
+    }
+  }
+
+  &__img {
+    position: absolute;
+    z-index : 1;
+    left    : 0;
+    width   : 40rem;
+    bottom  : 0;
+
+    img {
+      width  : 100%;
+      display: block;
+    }
+  }
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .profile-page {
+    width  : 100%;
+    padding: 0 4rem;
+
+    &__header {
+      width          : 100%;
+      justify-content: space-between;
+
+      &__edit-btn {
+        color           : $secondry-color;
+        background-color: transparent;
+      }
+
+      &__title {
+        font-size: 2.6rem;
+        color    : #55636d;
+      }
+    }
+
+    &__content {
+      display: block;
+      padding: 3rem 0rem 0;
+      width  : 100%;
+    }
+
+    &__sider {
+      min-height: auto;
+      border    : none;
+
+      &__title {
+        font-size  : 2.4rem;
+        font-weight: 500;
+        color      : #55636d;
+        text-align : start;
+      }
+
+      &__tabs {
+        display        : flex;
+        justify-content: space-around;
+        margin-top     : 4rem;
+        position       : relative;
+        border-bottom  : 1px solid #e8e8e8;
+
+        &__item {
+          font-size : 2rem;
+          border    : none;
+          // padding: 2rem 3.5rem;
+
+          &:focus {
+            font-weight: bold;
+            color      : #080808;
+          }
+        }
+
+        &::after {
+          content   : '';
+          height    : 0.5rem;
+          width     : 45rem;
+          position  : absolute;
+          top       : unset !important;
+          bottom    : 0;
+          transition: all 0.25s linear !important;
+        }
+
+        &.active-1 {
+          &::after {
+            right: 0;
+          }
+        }
+
+        &.active-2 {
+          &::after {
+            left: 0rem;
+          }
+        }
+      }
+
+      &__logout {
+        display: none;
+      }
+
+      &__change-password {
+        position: absolute;
+        bottom  : 20rem;
+
+        font-weight: bolder;
+        color      : #585858;
+        font-size  : 2rem;
+      }
+    }
+
+    &__main {
+      padding-inline-start: 0rem;
+      padding             : 5rem 0 30rem;
+
+      &__account,
+      &__contact,
+      &__personal {
+        display: block;
+
+        .field {
+          width:100%;
+          margin-bottom: 3rem;
+        }
+
+        &__title {
+          font-size    : 2rem;
+          margin-bottom: 1rem;
+          color        : #585858;
+          font-weight  : 400;
+        }
+
+        &__value {
+          font-size  : 2.5rem;
+          font-weight: 500;
+          color      : #55636d;
+        }
+
+        &__img {
+          // width     : 60rem;
+          // height    : 30rem;
+          object-fit: contain;
+        }
+      }
+    }
+
+    &__form {
+      width  : 100%;
+      display: block;
+    }
+
+    &__img {
+      width: 30rem;
+    }
+    .form-action {
+      width : 70%;
+      margin: 10rem auto 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .profile-page {
+    &__sider {
+      &__tabs {
+        &::after {
+          width: 30rem;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .profile-page {
+    &__sider {
+      &__tabs {
+        &::after {
+          width: 22rem;
+        }
+      }
+    }
+  }
+}
+
+

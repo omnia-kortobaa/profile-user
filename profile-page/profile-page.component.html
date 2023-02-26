@@ -1,0 +1,637 @@
+<div class="profile-page">
+  <!-- profile header  -->
+  <div class="profile-page__header">
+    <h2 class="profile-page__header__title">
+      {{ auth.user.currentUser.username }}
+    </h2>
+    <button
+      *ngIf="!isEditable"
+      matTooltip="تعديل بياناتك"
+      matTooltipPosition="above"
+      matTooltipClass="tooltip-grey"
+      mat-button
+      class="profile-page__header__edit-btn"
+      (click)="toggleEdit()"
+    >
+      <mat-icon
+        class="material-icons-outlined"
+        aria-hidden="false"
+        aria-label="edit icon"
+        fontIcon="edit"
+        >edit</mat-icon
+      >
+    </button>
+  </div>
+  <!-- profile content  -->
+  <div class="profile-page__content">
+    <!-- profile content sider  -->
+    <div class="profile-page__sider">
+      <!-- profile content sider  title -->
+      <!-- <h3 class="profile-page__sider__title">
+        {{ auth.user.currentUser.username }}
+      </h3> -->
+      <!-- profile content sider tabs  -->
+      <div
+        class="profile-page__sider__tabs active-2"
+        [ngClass]="{
+          'active-1': currentTab === 'PERSONAL',
+          'active-2': currentTab === 'CONTACT',
+          'active-3': currentTab === 'ACCOUNT'
+        }"
+      >
+        <div
+          class="profile-page__sider__tabs__item"
+          (click)="setCurrentTab('PERSONAL')"
+        >
+          بياناتى الشخصية
+        </div>
+        <!-- <div class="profile-page__sider__tabs__item" (click)="setCurrentTab('ACCOUNT')">بيانات الحساب</div> -->
+        <div
+          class="profile-page__sider__tabs__item"
+          (click)="setCurrentTab('CONTACT')"
+        >
+          بيانات الاتصال
+        </div>
+      </div>
+      <div
+        class="profile-page__main__change-password profile-page__sider__change-password"
+        (click)="openChangePasswordDialog()"
+      >
+        <mat-icon
+          class="material-icons-outlined"
+          aria-hidden="false"
+          aria-label="lock icon"
+          fontIcon="lock"
+          >lock</mat-icon
+        >
+        <p>تغيير كلمة المرور</p>
+      </div>
+      <!-- <div class="profile-page__sider__logout" (click)="openLogoutDialog()">
+        <mat-icon
+          class="material-icons-outlined"
+          aria-hidden="false"
+          aria-label="logout icon"
+          fontIcon="logout"
+          >logout</mat-icon
+        >
+        <p>تسجيل الخروج</p>
+      </div> -->
+    </div>
+    <!-- profile content main  -->
+    <div class="profile-page__main">
+      <!-- profile content main account preview  -->
+      <div
+        *ngIf="currentTab == 'ACCOUNT' && !isEditable"
+        class="profile-page__main__account"
+      >
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">اسم المستخدم</h4>
+          <p class="profile-page__main__account__value">
+            {{ auth.user.currentUser.username }}
+          </p>
+        </div>
+      </div>
+      <!-- profile content main contact preview  -->
+      <div
+        *ngIf="currentTab == 'CONTACT' && !isEditable"
+        class="profile-page__main__contact"
+      >
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">البريد الالكترونى</h4>
+          <p class="profile-page__main__account__value">
+            {{ auth.user.currentUser.email || 'لا يوجد' }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">رقم الجوال</h4>
+          <p class="profile-page__main__account__value">
+            {{ auth.user.currentUser.phone || 'لا يوجد' }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">رقم الهوية</h4>
+          <p class="profile-page__main__account__value">
+            {{ 'لا يوجد' }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">صورة الهوية</h4>
+          <figure class="profile-page__main__account__img">
+            <img
+              [src]="auth.user.currentUser.additionalData.nid_image"
+              alt="national id image"
+            />
+          </figure>
+        </div>
+      </div>
+      <!-- profile content main personal preview  -->
+      <div
+        *ngIf="currentTab == 'PERSONAL' && !isEditable"
+        class="profile-page__main__personal"
+      >
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">الاسم الأول</h4>
+          <p class="profile-page__main__account__value">
+            {{ auth.user.currentUser.additionalData.firstName || 'لا يوجد' }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">اسم الاب</h4>
+          <p class="profile-page__main__account__value">
+            {{ auth.user.currentUser.additionalData.secondName || 'لا يوجد' }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">اسم الجد</h4>
+          <p class="profile-page__main__account__value">
+            {{ auth.user.currentUser.additionalData.thirdName || 'لا يوجد' }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">اسم العائلة</h4>
+          <p class="profile-page__main__account__value">
+            {{ auth.user.currentUser.additionalData.lastName || 'لا يوجد' }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">تاريخ الميلاد</h4>
+          <p class="profile-page__main__account__value">
+            {{
+              (auth.user.currentUser.additionalData.birthdate
+                | arabicDate : 'Do MMM yy') || 'لا يوجد'
+            }}
+          </p>
+        </div>
+        <div class="profile-page__main__account__field">
+          <h4 class="profile-page__main__account__title">الحالة الاجتماعية</h4>
+          <p class="profile-page__main__account__value">
+            {{
+              auth.user.currentUser.additionalData.maritalStatus || 'لا يوجد'
+            }}
+          </p>
+        </div>
+        <!-- <div
+          class="profile-page__main__change-password"
+          (click)="openChangePasswordDialog()"
+        >
+          <mat-icon
+            class="material-icons-outlined"
+            aria-hidden="false"
+            aria-label="lock icon"
+            fontIcon="lock"
+            >lock</mat-icon
+          >
+          <p>تغيير كلمة المرور</p>
+        </div> -->
+      </div>
+      <!-- profile content main account edit  -->
+      <div
+        *ngIf="currentTab == 'ACCOUNT' && isEditable"
+        class="profile-page__main__account"
+      >
+        <!-- تعديل بيانات الحساب -->
+        <form
+          class="profile-page__form"
+          #updateAccountForm="ngForm"
+          (ngSubmit)="updateAccount(updateAccountForm)"
+        >
+          <!-- username field  -->
+          <div class="field field-string">
+            <label class="field__label"> اسم المستخدم </label>
+            <mat-form-field appearance="outline">
+              <input
+                class="warning-border"
+                matInput
+                [ngModel]="auth.user.currentUser.username"
+                name="username"
+                required
+                #username="ngModel"
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="
+                !username?.valid &&
+                username.touched &&
+                username.errors &&
+                username.errors['required']
+              "
+              >هذا الحقل مطلوب</small
+            >
+            <small
+              class="field__alert-message"
+              *ngIf="
+                username.errors &&
+                username.touched &&
+                username.errors['pattern']
+              "
+              >رقم غير صحيح</small
+            >
+          </div>
+          <!-- update form button  -->
+          <div class="form-action">
+            <button class="submit-btn" type="submit" mat-button>حفظ</button>
+            <button
+              class="cancel-btn"
+              type="button"
+              (click)="cancelUpdate()"
+              mat-button
+            >
+              الغاء
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- profile content main contact edit  -->
+      <div
+        *ngIf="currentTab == 'CONTACT' && isEditable"
+        class="profile-page__main__account"
+      >
+        <!-- تعديل بيانات الاتصال -->
+        <form
+          class="profile-page__form"
+          #updateContactForm="ngForm"
+          (ngSubmit)="updateContact(updateContactForm)"
+        >
+          <!-- Email -->
+          <!-- <div class="field field-string">
+            <label class="field__label">
+              البريد الالكترونى
+              <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field appearance="outline">
+              <input
+                class="warning-border"
+                matInput
+                [ngModel]="auth.user.currentUser.email"
+                name="email"
+                #email="ngModel"
+                required
+                pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="email.errors && email.touched && email.errors['pattern']"
+              >لا يمكن ادخال حروف مميزة</small
+            >
+          </div> -->
+          <!-- phone number -->
+          <!-- <div class="field field-number">
+            <label class="field__label">
+              رقم الجوال
+              <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                type="number"
+                [ngModel]="auth.user.currentUser.phone"
+                name="phone"
+                #phone="ngModel"
+                pattern="^966[0-9]+$"
+                onkeypress="return /[0-9]/i.test(event.key)"
+                maxlength="10"
+                required
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="
+                !phone?.valid &&
+                phone.touched &&
+                phone.errors &&
+                phone.errors['required']
+              "
+              >هذا الحقل مطلوب</small
+            >
+            <small
+              class="field__alert-message"
+              *ngIf="phone.errors && phone.touched && phone.errors['pattern']"
+              >الرجاء إدخال رقم الهاتف الخاص بك على أن يبدأ بكود 966</small
+            >
+          </div> -->
+          <!-- national id  -->
+          <!-- <div class="field field-nid">
+            <label class="field__label">
+              رقم الهوية
+              <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field appearance="outline">
+              <input
+              matInput
+              type="text"
+              ngModel
+              required
+              name="nid"
+              #nid="ngModel"
+              [TemplateFormValidator]="nid"
+              [validator]="validateSAID"
+              pattern="^[0-9]+$"
+              onkeypress="return /[0-9]/i.test(event.key)"
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="
+                !nid?.valid &&
+                nid.errors &&
+                nid.touched &&
+                nid.errors['pattern']
+              "
+              >لا يمكن ادخال حروف مميزة</small
+            >
+            <small
+              class="field__alert-message"
+              *ngIf="
+                !nid?.valid &&
+                nid.errors &&
+                nid.touched &&
+                nid.errors['validator']
+              "
+              >رقم الهوية غير صحيح</small
+            >
+          </div> -->
+
+          <div class="field field-file">
+            <div class="field__content">
+              <label class="field__label">
+                صورة الهوية
+                <!-- <span class="field__label__required">*</span> -->
+              </label>
+
+              <!-- upload button  -->
+              <div class="upload-btn">
+                <!-- <button type="button" mat-button (click)="triggerUploadNidImage()">
+                  <span>تغيير الصورة</span>
+                  <mat-icon
+                    aria-hidden="false"
+                    aria-label="Example file_upload icon"
+                    class="material-icons-outlined"
+                    >file_upload</mat-icon
+                  >
+                </button> -->
+                <figure class="profile-page__main__account__img">
+                  <div (click)="triggerUploadNidImage()">
+                    <mat-icon
+                      aria-hidden="false"
+                      aria-label="Example file_upload icon"
+                      class="material-icons-outlined"
+                      >file_upload</mat-icon
+                    >
+                    <span>تغيير الصورة</span>
+                  </div>
+                  <img
+                    [src]="
+                      this.nidImageUrl
+                        ? this.nidImageUrl
+                        : auth.user.currentUser.additionalData.nid_image
+                    "
+                    alt="national id image"
+                  />
+                </figure>
+              </div>
+            </div>
+            <!-- <p>يمكنك ارفاق صوره الهوية او البطاقة العائلية</p> -->
+
+            <!-- image preview  -->
+            <!-- <div
+              class="profile-page__main__account__field__preview-image"
+              *ngIf="this.nidImageUrl"
+            >
+              <img [src]="this.nidImageUrl" alt="uploaded image" />
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example attach_file icon"
+                class="material-icons-outlined close-btn"
+                (click)="removeImage()"
+                >close</mat-icon
+              >
+            </div> -->
+
+            <!-- image input  -->
+            <input
+              (change)="onImgUploaded($event)"
+              class="warning-border"
+              style="display: none"
+              ngModel
+              name="image"
+              required
+              #nid_image
+              type="file"
+              accept="image/*"
+            />
+            <!-- warning  -->
+            <!-- <p *ngIf="this.nidImageUrl == ''" class="profile-page__main__account__field__warning">
+              <mat-icon
+                aria-hidden="false"
+                aria-label="Example error icon"
+                class="material-icons-outlined"
+                >error</mat-icon
+              >
+              بدون استكمال تلك الخطوة لا يمكن تقديم قضية او استشارة
+            </p> -->
+            <p>برجاء التأكد من ان الصورة المرفقة واضحة و صحيحة</p>
+          </div>
+
+          <!-- update form button  -->
+          <div class="form-action">
+            <button class="submit-btn" type="submit" mat-button>حفظ</button>
+            <button
+              class="cancel-btn"
+              type="button"
+              (click)="cancelUpdate()"
+              mat-button
+            >
+              الغاء
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- profile content main personal edit  -->
+      <div
+        *ngIf="currentTab == 'PERSONAL' && isEditable"
+        class="profile-page__main__account"
+      >
+        <!-- تعديل بيناتى الشخصية -->
+        <form
+          class="profile-page__form"
+          #updatePersonalForm="ngForm"
+          (ngSubmit)="updatePersonal(updatePersonalForm)"
+        >
+          <!-- first name  -->
+          <div class="field">
+            <label class="field__label">
+              الاسم الأول <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field appearance="outline">
+              <input
+                class="warning-border"
+                matInput
+                [ngModel]="auth.user.currentUser.additionalData.firstName"
+                name="firstName"
+                #firstName="ngModel"
+                pattern="^[a-zA-Z\s\u0600-\u06ff]+$"
+                onkeydown="return /[a-zA-Z\s\u0600-\u06ff]/i.test(event.key)"
+                required
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="
+                firstName.errors &&
+                firstName.touched &&
+                firstName.errors['pattern']
+              "
+              >لا يمكن ادخال حروف مميزة او ارقام</small
+            >
+          </div>
+          <!-- second name  -->
+          <div class="field">
+            <label class="field__label">
+              اسم الاب
+              <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field appearance="outline">
+              <input
+                class="warning-border"
+                matInput
+                [ngModel]="auth.user.currentUser.additionalData.secondName"
+                name="secondName"
+                #secondName="ngModel"
+                pattern="^[a-zA-Z\s\u0600-\u06ff]+$"
+                onkeydown="return /[a-zA-Z\s\u0600-\u06ff]/i.test(event.key)"
+                required
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="
+                secondName.errors &&
+                secondName.touched &&
+                secondName.errors['pattern']
+              "
+              >لا يمكن ادخال حروف مميزة او ارقام</small
+            >
+          </div>
+          <!-- third name  -->
+          <div class="field">
+            <label class="field__label">
+              اسم الجد <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field appearance="outline">
+              <input
+                class="warning-border"
+                matInput
+                [ngModel]="auth.user.currentUser.additionalData.thirdName"
+                name="thirdName"
+                #thirdName="ngModel"
+                pattern="^[a-zA-Z\s\u0600-\u06ff]+$"
+                onkeydown="return /[a-zA-Z\s\u0600-\u06ff]/i.test(event.key)"
+                required
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="
+                thirdName.errors &&
+                thirdName.touched &&
+                thirdName.errors['pattern']
+              "
+              >لا يمكن ادخال حروف مميزة او ارقام</small
+            >
+          </div>
+          <!-- last name  -->
+          <div class="field">
+            <label class="field__label">
+              اسم العائلة <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field appearance="outline">
+              <input
+                class="warning-border"
+                matInput
+                [ngModel]="auth.user.currentUser.additionalData.lastName"
+                name="lastName"
+                #lastName="ngModel"
+                pattern="^[a-zA-Z\s\u0600-\u06ff]+$"
+                onkeydown="return /[a-zA-Z\s\u0600-\u06ff]/i.test(event.key)"
+                required
+              />
+            </mat-form-field>
+            <small
+              class="field__alert-message"
+              *ngIf="
+                lastName.errors &&
+                lastName.touched &&
+                lastName.errors['pattern']
+              "
+              >لا يمكن ادخال حروف مميزة او ارقام</small
+            >
+          </div>
+          <!-- date -->
+          <div class="field field-date">
+            <label class="field__label">
+              تاريخ الميلاد <span class="field__label__required">*</span>
+            </label>
+            <mat-form-field
+              class="bodytext-normal full-width"
+              block
+              appearance="outline"
+              color="primary"
+            >
+              <input
+                matInput
+                [max]="minDate"
+                [matDatepicker]="datePicker1"
+                name="birthdate"
+                placeholder="حدد تاريخ الميلاد"
+                [ngModel]="auth.user.currentUser.additionalData.birthdate"
+                matInput
+                autocomplete="off"
+                required
+                (click)="datePicker1.open()"
+                readonly
+              />
+              <mat-datepicker-toggle
+                class="custom-suffix"
+                matSuffix
+                [for]="datePicker1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #datePicker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <!-- martial status  -->
+          <div class="field field-radio">
+            <label class="field__label" style="margin-bottom: 3rem">
+              الحالة الاجتماعية
+            </label>
+            <mat-radio-group
+              [ngModel]="auth.user.currentUser.additionalData.maritalStatus"
+              name="maritalStatus"
+              #maritalStatus="ngModel"
+            >
+              <mat-radio-button value="متزوج">متزوج</mat-radio-button>
+              <mat-radio-button value="مطلق">مطلق</mat-radio-button>
+              <mat-radio-button value="اخرى">اخرى</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <!-- update form button  -->
+          <div class="form-action">
+            <button class="submit-btn" type="submit" mat-button>حفظ</button>
+            <button
+              class="cancel-btn"
+              type="button"
+              (click)="cancelUpdate()"
+              mat-button
+            >
+              الغاء
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <figure class="profile-page__img">
+    <img src="../../../../assets/images/users-profile.svg" alt="الملف الشخصي" />
+  </figure>
+</div>
